@@ -13,13 +13,13 @@ private:
     struct BlockHeader{
         BlockHeader* next;
         size_t size;
+        bool taken;//size in bytes
     };
-
-    BlockHeader* freeMemHead;
-    BlockHeader* takenMemHead;
+    BlockHeader* memHead;
     static void joinBlocks(BlockHeader* blk);
 
 public:
+
     MemoryAllocator(const MemoryAllocator& obj)=delete;
     static MemoryAllocator* getMemAlloc();
     void* kmem_alloc(size_t);
