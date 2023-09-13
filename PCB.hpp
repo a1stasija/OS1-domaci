@@ -4,7 +4,6 @@
 #include "../lib/hw.h"
 #include "../h/syscall_c.h"
 #include "../h/Scheduler.hpp"
-#include "../h/KScheduler.hpp"
 #include "../h/Riscv.hpp"
 #include "../h/MemoryAllocator.hpp"
 
