@@ -24,7 +24,6 @@ PCB::PCB(Body b,void* a,uint64* s, bool kernel){
     suspended=false;
     if(b!= nullptr) {
         Scheduler::put(this);
-        //KScheduler::put(this);
     }
 }
 PCB::~PCB() {
@@ -42,10 +41,8 @@ void PCB::kdispatch() {
     PCB* old=running;
     if(!old->isFinished() && !old->isSuspended()){
         Scheduler::put(old);
-        //KScheduler::put(old);
     }
     running=Scheduler::get();
-    //running=KScheduler::get();
     contextSwitch(&old->context,&running->context);
 }
 
@@ -75,7 +72,6 @@ void PCB::wake(PCB* p){
     while(pom){
         p->sleeping=p->sleeping->nextPCB;
         Scheduler::put(pom);
-        //KScheduler::put(pom);
         pom=p->sleeping;
     }
     p->sleeping= nullptr;

@@ -12,7 +12,6 @@ KSemaphore ::~KSemaphore (){
         head=head->nextPCB;
         pom->nextPCB= nullptr;
         Scheduler::put(pom);
-        //KScheduler::put(pom);
     }
     tail= nullptr;
 }
@@ -29,7 +28,6 @@ void KSemaphore::wait() {
         PCB::running->nextPCB= nullptr;
         PCB* old=PCB::running;
         PCB::running=Scheduler::get();
-        //PCB::running=KScheduler::get();
         PCB::contextSwitch(&old->context,&PCB::running->context);
 
     }
@@ -46,7 +44,6 @@ int KSemaphore::signal() {
         pom->nextPCB= nullptr;
         if(!pom->isFinished()){
             Scheduler::put(pom);
-            //KScheduler::put(pom);
         }else{
             return -2;  //neregularno, vracamo mrtav proces u spremne
         }
