@@ -16,9 +16,9 @@ MemoryAllocator* MemoryAllocator::getMemAlloc(){
 }
 void* MemoryAllocator::kmem_alloc(size_t size) {
     if(size==0 || !memHead) return nullptr;
-    size = ((size + MEM_BLOCK_SIZE - 1)/MEM_BLOCK_SIZE) * MEM_BLOCK_SIZE;
+    size = ((size+MEM_BLOCK_SIZE-1)/MEM_BLOCK_SIZE)*MEM_BLOCK_SIZE;
     BlockHeader *blk=memHead,*prev= nullptr;
-    while(blk && blk->size < size){
+    while(blk && (blk->size < size||blk->taken)){
         prev=blk;
         blk = blk->next;
     }
@@ -46,10 +46,9 @@ void* MemoryAllocator::kmem_alloc(size_t size) {
 
 int MemoryAllocator::kmem_free(void *addr) {
     if(!addr) return -1;
-    if(((char*)HEAP_END_ADDR-(char*)addr)<0) return -2;
-    if((char*)addr < (char*)HEAP_START_ADDR + sizeof(MemoryAllocator) + sizeof(BlockHeader)) return -3;
+    if(((char*)HEAP_END_ADDR-(char*)addr)<0 ||(char*)addr < (char*)HEAP_START_ADDR + sizeof(MemoryAllocator) + sizeof(BlockHeader)) return -2;
     BlockHeader* newBlk=(BlockHeader*)((char*)addr-sizeof(BlockHeader));
-    if(newBlk->taken==false) return -4;
+    if(newBlk->taken==false) return -3;
     BlockHeader* cur=memHead;
     BlockHeader* prev= nullptr;
     if(!memHead ||(char*)addr<(char*)memHead){
@@ -67,7 +66,6 @@ int MemoryAllocator::kmem_free(void *addr) {
     joinBlocks(newBlk);
     joinBlocks(cur);
     return 0;
-
 }
 
 

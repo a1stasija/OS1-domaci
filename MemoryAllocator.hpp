@@ -13,7 +13,7 @@ private:
     struct BlockHeader{
         BlockHeader* next;
         size_t size;
-        bool taken;//size in bytes
+        bool taken;
     };
     BlockHeader* memHead;
     static void joinBlocks(BlockHeader* blk);
