@@ -53,7 +53,7 @@ int KSemaphore::signal() {
 
 KSemaphore* KSemaphore::createKSemaphore(int v) {
     KSemaphore* s=new KSemaphore(v);
-    if(s->value<0){
+    if(!s){
         return nullptr;
     }
     return s;

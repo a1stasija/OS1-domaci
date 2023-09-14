@@ -41,6 +41,7 @@ void PCB::kdispatch() {
     PCB* old=running;
     if(!old->isFinished() && !old->isSuspended()){
         Scheduler::put(old);
+
     }
     running=Scheduler::get();
     contextSwitch(&old->context,&running->context);

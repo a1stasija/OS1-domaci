@@ -6,7 +6,7 @@
 
 Thread::Thread(void (*body)(void *), void *arg) {
     this->body=body;
-    this->arg=arg;//bez tc jer ti ne treba da bude u scheduler-u
+    this->arg=arg;
 }
 Thread::Thread() {
    body= nullptr;
@@ -72,10 +72,10 @@ void Console::putc(char c) {
 
 void *operator new(size_t size) {
     return mem_alloc(size);
-    //return __mem_alloc(size);
+
 }
 
 void operator delete(void *p) {
     mem_free(p);
-    //__mem_free(p);
+
 }
